@@ -1,0 +1,213 @@
+<div class="bg-wht rounded-l shadow-hover p-ld-32 block">
+  <ld-typo variant="h2" class="mb-ld-32">Hi there 👋</ld-typo>
+
+  <ld-typo class="mb-ld-16">
+    This small sandbox app demonstrates
+    <a
+      href="https://emdgroup-liquid.github.io/liquid/"
+      class="font-bold hover:underline"
+    >
+      Liquid Oxygen
+    </a>
+    used in combination with Angular, Tailwind CSS and Vite.
+  </ld-typo>
+  <ld-typo class="mb-ld-24"> Let's change the theme of the app first: </ld-typo>
+
+  <ld-label class="mb-ld-32 w-full">
+    App Theme
+    <ld-select
+      (ldchange)="onThemeChange($event)"
+      placeholder="Pick a theme"
+      prevent-deselection
+    >
+      <ld-option value="ocean" selected>Ocean</ld-option>
+      <ld-option value="bubblegum">Bubblegum</ld-option>
+      <ld-option value="shake">Shake</ld-option>
+      <ld-option value="solvent">Solvent</ld-option>
+      <ld-option value="tea">Tea</ld-option>
+    </ld-select>
+  </ld-label>
+
+  <ld-typo class="mb-ld-24">
+    Next we have set up some form validation:
+  </ld-typo>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-ld-24 mb-ld-32">
+    <ld-label>
+      <span class="flex justify-between">
+        Your title (optional)
+        <ld-tooltip arrow position="top right" class="h-1">
+          <ld-typo>
+            We are asking because we'd like to address you correctly.
+          </ld-typo>
+        </ld-tooltip>
+      </span>
+      <ld-select placeholder="No title" (ldinput)="title = $event.detail[0]">
+        <ld-option *ngFor="let title of titles" [attr.value]="title"
+          >{{ title }}
+        </ld-option>
+      </ld-select>
+      <ld-input-message
+        mode="valid"
+        [style.visibility]="title ? 'inherit' : 'hidden'"
+      >
+        Good pick.
+      </ld-input-message>
+    </ld-label>
+
+    <ld-label>
+      Your full name
+      <ld-input
+        placeholder="e.g. Jason Parse"
+        tone="dark"
+        [attr.value]="form.controls.fullName.value"
+        (input)="form.controls.fullName.setValue($event.target.value)"
+        [attr.invalid]="
+          (form.dirty || form.controls.fullName.dirty) &&
+          form.controls.fullName.invalid
+        "
+        (blur)="form.controls.fullName.markAsDirty()"
+      />
+      <ng-template
+        [ngIf]="
+          (form.dirty || form.controls.fullName.dirty) &&
+          form.controls.fullName.invalid
+        "
+        [ngIfElse]="fullNameValid"
+      >
+        <ld-input-message mode="error">
+          Your full name is required.
+        </ld-input-message>
+      </ng-template>
+
+      <ng-template #fullNameValid>
+        <ld-input-message
+          mode="valid"
+          [style.visibility]="
+            form.dirty || form.controls.fullName.dirty ? 'inherit' : 'hidden'
+          "
+        >
+          Lovely name.
+        </ld-input-message>
+      </ng-template>
+    </ld-label>
+
+    <ld-label>
+      Your email address
+      <ld-input
+        placeholder="e.g. Jason Parse"
+        tone="dark"
+        [attr.value]="form.controls.email.value"
+        (input)="form.controls.email.setValue($event.target.value)"
+        [attr.invalid]="
+          (form.dirty || form.controls.email.dirty) &&
+          form.controls.email.invalid
+        "
+        (blur)="form.controls.email.markAsDirty()"
+      />
+      <ng-template
+        [ngIf]="
+          (form.dirty || form.controls.email.dirty) &&
+          form.controls.email.invalid
+        "
+        [ngIfElse]="emailValid"
+      >
+        <ld-input-message
+          *ngIf="form.controls.email.hasError('required')"
+          mode="error"
+        >
+          Your email address is required.
+        </ld-input-message>
+        <ld-input-message
+          *ngIf="form.controls.email.hasError('email')"
+          mode="error"
+        >
+          This email address is invalid.
+        </ld-input-message>
+      </ng-template>
+
+      <ng-template #emailValid>
+        <ld-input-message
+          mode="valid"
+          [style.visibility]="
+            form.dirty || form.controls.email.dirty ? 'inherit' : 'hidden'
+          "
+        >
+          Lovely email address.
+        </ld-input-message>
+      </ng-template>
+    </ld-label>
+
+    <ld-label>
+      Your website (optional)
+      <ld-input
+        type="url"
+        placeholder="e.g. https://example.com"
+        tone="dark"
+        [attr.value]="form.controls.website.value"
+        (input)="form.controls.website.setValue($event.target.value)"
+        (blur)="form.controls.website.markAsDirty()"
+      />
+      <ng-template
+        [ngIf]="
+          (form.dirty || form.controls.website.dirty) &&
+          form.controls.website.invalid
+        "
+        [ngIfElse]="websiteValid"
+      >
+        <ld-input-message mode="error"> This URL is invalid. </ld-input-message>
+      </ng-template>
+
+      <ng-template #websiteValid>
+        <ld-input-message
+          mode="valid"
+          [style.visibility]="
+            form.controls.website.value && form.controls.website.dirty
+              ? 'inherit'
+              : 'hidden'
+          "
+        >
+          You even have a website! 👍
+        </ld-input-message>
+      </ng-template>
+    </ld-label>
+  </div>
+
+  <ld-label class="w-full mb-ld-32">
+    Comment (optional)
+    <ld-input
+      multiline
+      placeholder="Be creative!"
+      value=""
+      tone="dark"
+      style="min-height: 7rem"
+    />
+  </ld-label>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-ld-24 items-center">
+    <ld-label position="right" size="m">
+      <span
+        [class.text-rr]="
+          form.controls.terms.dirty && !form.controls.terms.value
+        "
+      >
+        I accept the terms (none).
+      </span>
+      <ld-checkbox
+        tone="dark"
+        [attr.value]="form.controls.terms.value"
+        (ldinput)="form.controls.terms.setValue($event.detail)"
+        [attr.invalid]="
+          (form.dirty || form.controls.terms.dirty) &&
+          !form.controls.terms.value
+        "
+        (blur)="form.controls.terms.markAsDirty()"
+      />
+    </ld-label>
+
+    <div class="grid grid-cols-2 gap-ld-16">
+      <ld-button (click)="onCancel()" mode="secondary">Cancel</ld-button>
+      <ld-button (click)="onSubmit()">Submit</ld-button>
+    </div>
+  </div>
+</div>

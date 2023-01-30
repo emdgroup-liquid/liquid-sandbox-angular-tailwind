@@ -1,1 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+@import "@emdgroup-liquid/liquid/dist/css/liquid.global.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
